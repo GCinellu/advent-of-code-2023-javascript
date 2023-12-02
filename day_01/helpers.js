@@ -1,5 +1,5 @@
 const { sum } = require('../common/helpers')
-const fs = require("fs");
+
 function composeFirstAndLastDigitsFromNumberArray(numbers = []) {
   const firstNumber = numbers.shift()
   const lastNumber = numbers.pop() || firstNumber
@@ -16,11 +16,13 @@ function combineFirstAndLastDigitsFromString(line) {
     .map(character => parseInt(character, 10))
     .filter(Boolean)
   
-  return composeFirstAndLastDigitsFromNumberArray(numbers)
+  return numbers.length
+    ? composeFirstAndLastDigitsFromNumberArray(numbers)
+    : 0
 }
 
 function combineFirstAndLastDigitsFromStrings(strings) {
-  return strings.map((element, index) => {
+  return strings.map((element) => {
     return combineFirstAndLastDigitsFromString(element)
   })
 }
@@ -45,7 +47,7 @@ function splitNumberWordAndDigits(numberWord) {
 
     if (match) {
       words.push(match);
-      currentWord = '';
+      currentWord = char; // as the gnomes like to mix up
     }
   }
   

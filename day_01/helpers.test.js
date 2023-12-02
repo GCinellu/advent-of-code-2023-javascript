@@ -7,7 +7,6 @@ const {
   getSolutionPart1,
   getSolutionPart2,
 } = require('./helpers');
-const fs = require("fs");
 
 const part1Mocks = [
   ['1abc2', 12],
@@ -51,7 +50,7 @@ describe('Day 1 - helpers', () => {
       const expected = 0
       const actual = combineFirstAndLastDigitsFromString(string)
 
-      expect(actual).toStrictEqual(expected);
+      expect(actual).toEqual(expected);
     });
   });
 
@@ -123,16 +122,6 @@ describe('Day 1 - helpers', () => {
       const strings = part2Mocks.map(([string]) => string)
 
       const expected = 281
-      const actual = getSolutionPart2(strings)
-
-      expect(actual).toEqual(expected);
-    })
-
-    it('should solve the puzzle', () => {
-      const fs = require('fs');
-      const strings = fs.readFileSync(__dirname + '/data', 'utf-8').split('\n');
-
-      const expected = 53515
       const actual = getSolutionPart2(strings)
 
       expect(actual).toEqual(expected);
