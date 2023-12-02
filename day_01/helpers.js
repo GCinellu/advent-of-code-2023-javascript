@@ -40,6 +40,7 @@ function splitNumberWordAndDigits(numberWord) {
       currentWord = '';
       continue;
     }
+
     currentWord += char;
 
     const match = numberWords
@@ -47,10 +48,10 @@ function splitNumberWordAndDigits(numberWord) {
 
     if (match) {
       words.push(match);
-      currentWord = char; // as the gnomes like to mix up
+      currentWord = char; // as the gnomes like to mix up the last letter of a number with the first one of another number
     }
   }
-  
+
   return words;
 }
 
