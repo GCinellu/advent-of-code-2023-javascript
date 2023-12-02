@@ -5,8 +5,8 @@ const cubesLimits = {
 }
 
 function extractGameRoundsFromString(string) {
-  const gamesStr = string.replace(/^[^:]+:\s*/, '');
-  return gamesStr.split(';').map(game => game.trim());
+  const gamesString = string.replace(/^[^:]+:\s*/, '');
+  return gamesString.split(';').map(game => game.trim());
 }
 
 function extractGameRoundFromString(string) {
@@ -14,80 +14,58 @@ function extractGameRoundFromString(string) {
 }
 
 function validateExtraction(extraction) {
-  let isValidGame = true
-  let [number, color] = extraction.split(' ')
-  number = parseInt(number, 10)
+  let [numberString, color] = extraction.split(' ')
+  const number = parseInt(numberString, 10)
 
-  if (number > cubesLimits[color]) {
-    isValidGame = false
-  }
-
-  return isValidGame
+  return number <= cubesLimits[color]
 }
 
-function getCubesPowerFromGame(game) {
-  const gameRounds = extractGameRoundsFromString(game)
-  const gameValues = {
+function calculateMaximumCubesPower(gameData) {
+  const rounds = extractGameRoundsFromString(gameData);
+  const maxValues = {
     red: 0,
     blue: 0,
     green: 0,
-  }
-  let counter = 0
+  };
 
-  for (let gameRound of gameRounds) {
-    let extractions = gameRound.split(', ')
+  rounds.forEach(round => {
+    round.split(', ').forEach(extraction => {
+      const [numberString, color] = extraction.split(' ');
+      const number = parseInt(numberString, 10);
 
-    for (let extraction of extractions) {
-      let [number, color] = extraction.split(' ')
-      number = parseInt(number, 10)
-
-      if (gameValues[color] < number) {
-        gameValues[color] = number
+      if (!isNaN(number) && maxValues[color] !== undefined) {
+        maxValues[color] = Math.max(maxValues[color], number);
       }
-    }
-  }
+    });
+  });
 
-  return counter + (
-    gameValues.red * gameValues.blue * gameValues.green
-  )
+  return maxValues.red * maxValues.blue * maxValues.green;
 }
 
+
 const getSolutionPart1 = (lines) => {
-  return lines.reduce((acc, line) => {
-    if (!line) return acc
+  return lines.reduce((totalScore, line) => {
+    if (!line) return totalScore;
 
-    const index = extractGameRoundFromString(line)
-    let isValidGame = true
+    const gameIndex = extractGameRoundFromString(line);
+    if (isNaN(parseInt(gameIndex, 10))) return totalScore;
 
-    const gameRounds = extractGameRoundsFromString(line)
+    const gameRounds = extractGameRoundsFromString(line);
+    const isGameValid = gameRounds.every(gameRound => {
+      return gameRound.split(', ').every(validateExtraction);
+    });
 
-    for (let gameRound of gameRounds) {
-      let extractions = gameRound.split(', ')
-
-      for (let extraction of extractions) {
-        let [number, color] = extraction.split(' ')
-        number = parseInt(number, 10)
-
-        if (number > cubesLimits[color]) {
-          isValidGame = false
-          break;
-        }
-      }
-    }
-
-    if (isValidGame) {
-      acc += parseInt(index, 10)
-    }
-
-    return acc
-  }, 0)
+    return isGameValid
+      ? totalScore + parseInt(gameIndex, 10)
+      : totalScore;
+  }, 0);
 }
 
 const getSolutionPart2 = (lines) => {
   return lines.reduce((acc, line) => {
     if (!line) return acc
 
-    const gamePower = getCubesPowerFromGame(line)
+    const gamePower = calculateMaximumCubesPower(line)
     return acc + gamePower
   }, 0)
 }
@@ -95,7 +73,7 @@ const getSolutionPart2 = (lines) => {
 module.exports = {
   extractGameRoundsFromString,
   extractGameRoundFromString,
-  getCubesPowerFromGame,
+  calculateMaximumCubesPower,
   validateExtraction,
   getSolutionPart1,
   getSolutionPart2

@@ -7,4 +7,4 @@ const part1 = getSolutionPart1(lines)
 const part2 = getSolutionPart2(lines)
 
 console.log(`[INFO] part1`, part1) // 2551
-console.log(`[INFO] part2`, part2)
+console.log(`[INFO] part2`, part2) // 62811

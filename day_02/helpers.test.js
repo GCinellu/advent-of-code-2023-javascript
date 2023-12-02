@@ -2,9 +2,9 @@ const {
   extractGameRoundFromString,
   extractGameRoundsFromString,
   validateExtraction,
-  getCubesPowerFromGame,
   getSolutionPart1,
-  getSolutionPart2
+  getSolutionPart2,
+  calculateMaximumCubesPower
 } = require('./helpers');
 
 const mockStrings = [
@@ -67,7 +67,7 @@ describe('Day 2 - helpers', () => {
     });
   });
 
-  describe('getCubesPowerFromGame', () => {
+  describe('calculateMaximumCubesPower', () => {
     it('should return the number of cubes for each color', () => {
       const cases = [
         ['Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green', 48],
@@ -78,14 +78,12 @@ describe('Day 2 - helpers', () => {
       ];
 
       for (let [string, expected] of cases) {
-        const actual = getCubesPowerFromGame(string)
+        const actual = calculateMaximumCubesPower(string)
 
         expect(actual).toEqual(expected);
       }
     });
-
   })
-
 
   describe('getSolutionPart1', () => {
     it('should return the solution for part 1', () => {
