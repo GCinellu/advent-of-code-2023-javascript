@@ -1,28 +1,33 @@
 const { sum } = require('../common/helpers')
+const fs = require("fs");
 function composeFirstAndLastDigitsFromNumberArray(numbers = []) {
-  const firstNumber = numbers.shift() ?? '0'
-  const lastNumber = numbers.pop() ?? firstNumber
-
+  const firstNumber = numbers.shift()
+  const lastNumber = numbers.pop() || firstNumber
+  
   const valueString = `${firstNumber}${lastNumber}`
-  return parseInt(valueString, 10) || 0
+
+  return parseInt(valueString, 10)
 }
 
-function combineFirstAndLastDigitsFromString(string) {
-  const numbers = string
+function combineFirstAndLastDigitsFromString(line) {
+  const numbers = line
     .split('')
-    .filter(l => !isNaN(l)).map(character => parseInt(character, 10))
+    .filter(character => !isNaN(character))
+    .map(character => parseInt(character, 10))
     .filter(Boolean)
   
   return composeFirstAndLastDigitsFromNumberArray(numbers)
 }
 
 function combineFirstAndLastDigitsFromStrings(strings) {
-  return strings.map(combineFirstAndLastDigitsFromString)
+  return strings.map((element, index) => {
+    return combineFirstAndLastDigitsFromString(element)
+  })
 }
 
 function splitNumberWordAndDigits(numberWord) {
   const numberWords = [
-    'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'
+    'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'
   ];
   let words = [];
   let currentWord = '';
@@ -38,13 +43,12 @@ function splitNumberWordAndDigits(numberWord) {
     const match = numberWords
       .find(numberWord => currentWord.match(numberWord))
 
-
     if (match) {
       words.push(match);
       currentWord = '';
     }
   }
-
+  
   return words;
 }
 
@@ -52,7 +56,7 @@ function wordToDigit(word) {
   if (!isNaN(parseInt(word, 10))) return parseInt(word, 10);
   
   const mapping = {
-    'one': 1, 'two': 2, 'three': 3, 'four': 4,
+    'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,
     'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9
   };
 
@@ -77,7 +81,6 @@ function getSolutionPart1(strings) {
 }
 
 function getSolutionPart2(strings = []) {
-  console.log(`[INFO] strings`, strings)
   const numbers = splitNumberWordsToDigits(strings)
   return sum(numbers)
 }
@@ -85,7 +88,6 @@ function getSolutionPart2(strings = []) {
 module.exports = {
   // part 1
   combineFirstAndLastDigitsFromString,
-  combineFirstAndLastDigitsFromStrings,
   getSolutionPart1,
 
   // part 2

@@ -1,7 +1,10 @@
 const {
   extractGameRoundFromString,
   extractGameRoundsFromString,
-  isValidExtraction
+  validateExtraction,
+  getCubesPowerFromGame,
+  getSolutionPart1,
+  getSolutionPart2
 } = require('./helpers');
 
 const mockStrings = [
@@ -44,14 +47,75 @@ describe('Day 2 - helpers', () => {
     });
   });
 
-  describe('isValidExtraction', () => {
-    it('should determine if an extraction is valid based on the number of cubes extracted', () => {
-      const string = mockStrings[0]
+  describe('validateExtraction', () => {
+    it('should return true if an extraction has less cubes than allowed per color', () => {
+      const string = '8 red'
+
+      const expected = true
+      const actual = validateExtraction(string)
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return false if an extraction has more cubes than allowed per color', () => {
+      const string = '20 blue'
 
       const expected = false
-      const actual = isValidExtraction(string)
+      const actual = validateExtraction(string)
 
       expect(actual).toEqual(expected);
     });
   });
+
+  describe('getCubesPowerFromGame', () => {
+    it('should return the number of cubes for each color', () => {
+      const cases = [
+        ['Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green', 48],
+        ['Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue', 12],
+        ['Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red', 1560],
+        ['Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red', 630],
+        ['Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green', 36],
+      ];
+
+      for (let [string, expected] of cases) {
+        const actual = getCubesPowerFromGame(string)
+
+        expect(actual).toEqual(expected);
+      }
+    });
+
+  })
+
+
+  describe('getSolutionPart1', () => {
+    it('should return the solution for part 1', () => {
+      const mock = [
+        'Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green',
+        'Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue',
+        'Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red',
+        'Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red',
+        'Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green',
+      ]
+      const expected = 8
+      const actual = getSolutionPart1(mock)
+
+      expect(actual).toEqual(expected);
+    });
+  })
+
+  describe('getSolutionPart2', () => {
+    it('should return the solution for part 1', () => {
+      const mock = [
+        'Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green',
+        'Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue',
+        'Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red',
+        'Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red',
+        'Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green',
+      ]
+      const expected = 2286
+      const actual = getSolutionPart2(mock)
+
+      expect(actual).toEqual(expected);
+    });
+  })
 })
