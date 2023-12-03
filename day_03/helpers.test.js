@@ -2,7 +2,7 @@ const {
   findCollidingEdges,
   createSymbolsMapping
 } = require('./helpers');
-const fs = require("fs");
+const fs = require('fs');
 
 describe('createSymbolsMapping', () => {
   it('should create a mapping of non-numeric, non-period characters with their positions', () => {
@@ -25,21 +25,21 @@ describe('createSymbolsMapping', () => {
 describe('findCollidingEdges', () => {
   it('should correctly identify and record the edges colliding with numbers', () => {
     const data = [
-      "...12..",
-      ".34....",
-      "....56."
+      '........897.......839...........651.399.............236...............................343...986...........308...............................',
+      '........*................*404......*............134.....953..508=.....................*....*..........325*..........744......392............',
+      '...350..847..403...-..541.....622.................*....................356.......%..95...793....................830...........*.....163.....',
     ];
     const symbolsMapping = {
-      "0,2": [], "0,3": [],
-      "1,1": [], "1,2": [],
-      "2,4": [], "2,5": []
+      '0,2': [], '0,3': [],
+      '1,1': [], '1,2': [],
+      '2,4': [], '2,5': []
     };
 
     const expected = {
-      '0,2': [ 12, 34 ], '0,3': [ 12, 34 ],
-      '1,1': [ 34 ], '1,2': [ 12, 34 ],
-      '2,4': [ 56 ], '2,5': [ 56 ]
-    };
+      '0,2': [], '0,3': [],
+      '1,1': [], '1,2': [350],
+      '2,4': [350], '2,5': [350]
+    }
 
     const result = findCollidingEdges(data, symbolsMapping);
 
