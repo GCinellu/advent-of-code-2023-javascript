@@ -1,4 +1,4 @@
-const {sum, product} = require("../common/helpers");
+const {sum, product} = require('../common/helpers');
 
 const createSymbolsMapping = (data) => {
   const chars = {}

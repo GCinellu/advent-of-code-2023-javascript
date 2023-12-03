@@ -37,9 +37,9 @@ describe('Day 2 - helpers', () => {
       const string = mockStrings[0]
 
       const expected = [
-        "7 blue, 9 red, 1 green",
-        "8 green", "10 green, 5 blue, 3 red",
-        "11 blue, 5 red, 1 green"
+        '7 blue, 9 red, 1 green',
+        '8 green', '10 green, 5 blue, 3 red',
+        '11 blue, 5 red, 1 green'
       ]
       const actual = extractGameRoundsFromString(string)
 

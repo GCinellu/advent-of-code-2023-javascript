@@ -1,9 +1,9 @@
 const fs= require('fs');
 const {
   getSolutions,
-} = require("./helpers");
+} = require('./helpers');
 
-const data = fs.readFileSync(__dirname + '/data', 'utf-8').replaceAll(/(\r)/gm, "").split('\n')
+const data = fs.readFileSync(__dirname + '/data', 'utf-8').replaceAll(/(\r)/gm, '').split('\n')
 console.log('Solutions =>', getSolutions(data)) // { part1: 556057, part2: 82824352 }
 // solutions are pretty similar
 // assumptions:
